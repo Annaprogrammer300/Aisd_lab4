@@ -72,8 +72,8 @@ int main() {
     Tree Tree3 = generate_rand_Tree(100000);
     std::vector<int> vec = generate_rand_vector(100000);
 
-    std::cout << "\n average_fiiling_time_Tree: " << average_filling_time(generate_rand_Tree, 10000) << std::endl;
-    std::cout << "average_fiiling_time_vector: " << average_filling_time(generate_rand_vector, 10000) << std::endl;
+    std::cout << "\n average_fiiling_time_Tree: " << average_filling_time(generate_rand_Tree, 100000) << std::endl;
+    std::cout << "average_fiiling_time_vector: " << average_filling_time(generate_rand_vector, 100000) << std::endl;
     std::cout << "average_search_Tree: " << average_search_Tree(Tree3) << std::endl;
     std::cout << "average_search_vector: " << average_search_vector(vec) << std::endl;
     std::cout << "average_insert_Tree: " << average_insert_Tree(Tree3) << std::endl;
