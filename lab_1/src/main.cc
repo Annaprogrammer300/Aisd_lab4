@@ -1,6 +1,7 @@
 #include "../include/tree.h"
 #include "../include/task.h"
 #include "../include/random.h"
+#include "../include/test_time.h"
 
 int main() {
     Tree tree;
@@ -27,6 +28,7 @@ int main() {
 
 
     std::cout << "\n Size of the tree: " << tree.size() << std::endl;
+
 
     Tree tree_1;
     Tree tree_2;
@@ -66,6 +68,19 @@ int main() {
         difference_Tree.print();
     }
 
-   
+    // Time test
+    Tree Tree3 = generate_rand_Tree(100000);
+    std::vector<int> vec = generate_rand_vector(100000);
+
+    std::cout << "\n average_fiiling_time_Tree: " << average_filling_time(generate_rand_Tree, 10000) << std::endl;
+    std::cout << "average_fiiling_time_vector: " << average_filling_time(generate_rand_vector, 10000) << std::endl;
+    std::cout << "average_search_Tree: " << average_search_Tree(Tree3) << std::endl;
+    std::cout << "average_search_vector: " << average_search_vector(vec) << std::endl;
+    std::cout << "average_insert_Tree: " << average_insert_Tree(Tree3) << std::endl;
+    std::cout << "average_insert_vector: " << average_insert_vector(vec, 8) << std::endl;
+    std::cout << "average_erase_Tree: " << average_erase_Tree(Tree3) << std::endl;
+    std::cout << "average_erase_vector: " << average_erase_vector(vec, 8) << std::endl;
+
+
     return 0;
 }

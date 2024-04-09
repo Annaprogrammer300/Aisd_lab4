@@ -1,5 +1,5 @@
-#ifndef TREE_INCLUDE_TASK_H
-#define TREE_INCLUDE_TASK_H
+#ifndef LAB1_INCLUDE_TASK_H
+#define LAB1_INCLUDE_TASK_H
 
 #include "../include/tree.h"
 
