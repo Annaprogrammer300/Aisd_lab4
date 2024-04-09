@@ -14,4 +14,4 @@ if(MSVC)
     endif()
 endif()
 
-add_executable(main "src/main.cc" "src/tree.cc" "include/tree.h"  "include/random.h" )
+add_executable(main "src/main.cc" "src/tree.cc" "include/tree.h"  "include/random.h"  "include/task.h")
