@@ -24,6 +24,7 @@ class Tree {
     bool contains_recursive(Node* node, int key) const;
     Node* erase_recursive(Node* node, int key);
     Node* find_min(Node* node);
+    void print_tree_recursive(Node*, int = 0) const;
 
     int height(Node* node);
     int balance_factor(Node* node);
@@ -43,8 +44,9 @@ public:
     void erase(int key);
     void print() const;
     size_t size() const;
-    Node* root() const;
+    bool empty() const;
     int get_index(size_t index) const;
+    void print_tree() const;
 
 };
 

@@ -20,9 +20,6 @@ size_t Tree::size() const {
     return _size;
 }
 
-Tree::Node* Tree::root() const {
-    return _root;
-}
 
 void Tree::insert(int key) {
     _root = insert_recursive(_root, key);
@@ -38,6 +35,11 @@ void Tree::erase(int key) {
     _size--;
 }
 
+bool Tree::empty() const {
+    return _root == nullptr;
+}
+
+
 void Tree::print() const {
     std::stack<Node*> stack;
     Node* current = _root;
@@ -51,6 +53,27 @@ void Tree::print() const {
         stack.pop();
         std::cout << current->key << " ";
         current = current->right;
+    }
+}
+
+void Tree::print_tree() const {
+    print_tree_recursive(_root);
+}
+
+void Tree::print_tree_recursive(Node* root, int spaces) const {
+    if (!root) return;
+
+    while (root)
+    {
+        print_tree_recursive(root->right, spaces + 5);
+
+        for (int i = 1; i < spaces; ++i)
+            std::cout << ' ';
+
+        std::cout << root->key << std::endl;
+
+        root = root->left;
+        spaces += 5;
     }
 }
 
@@ -96,6 +119,8 @@ Tree::Node* Tree::insert_recursive(Node* node, int key) {
     }
 
     return balance(node);
+    //return node;
+
 }
 
 bool Tree::contains_recursive(Node* node, int key) const {

@@ -13,6 +13,8 @@ int main() {
 
     std::cout << "\n tree: ";
     tree.print(); // 3 8 10 12
+    std::cout << "\n tree: \n";
+    tree.print_tree();
 
     std::cout << "\n contains 3: " << tree.contains(3) << std::endl; // Contains 3: 1
 
@@ -60,8 +62,11 @@ int main() {
     std::cout << "\n union_tree: ";
     union_tree.print();
 
+    std::cout << "\n union_tree: \n";
+    union_tree.print_tree();
+
     std::cout << " \n symmetric_difference_Tree: ";
-    if (difference_Tree.root() == nullptr) {
+    if (difference_Tree.empty()) {
         std::cout << "Empty";
     }
     else {
@@ -69,7 +74,7 @@ int main() {
     }
 
     // Time test
-    Tree Tree3 = generate_rand_Tree(100000);
+    /*Tree Tree3 = generate_rand_Tree(100000);
     std::vector<int> vec = generate_rand_vector(100000);
 
     std::cout << "\n average_fiiling_time_Tree: " << average_filling_time(generate_rand_Tree, 100000) << std::endl;
@@ -79,7 +84,7 @@ int main() {
     std::cout << "average_insert_Tree: " << average_insert_Tree(Tree3) << std::endl;
     std::cout << "average_insert_vector: " << average_insert_vector(vec, 8) << std::endl;
     std::cout << "average_erase_Tree: " << average_erase_Tree(Tree3) << std::endl;
-    std::cout << "average_erase_vector: " << average_erase_vector(vec, 8) << std::endl;
+    std::cout << "average_erase_vector: " << average_erase_vector(vec, 8) << std::endl;*/
 
 
     return 0;
