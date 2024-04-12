@@ -41,19 +41,7 @@ bool Tree::empty() const {
 
 
 void Tree::print() const {
-    std::stack<Node*> stack;
-    Node* current = _root;
-
-    while (current || !stack.empty()) {
-        while (current) {
-            stack.push(current);
-            current = current->left;
-        }
-        current = stack.top();
-        stack.pop();
-        std::cout << current->key << " ";
-        current = current->right;
-    }
+    return print_recursive(_root);
 }
 
 void Tree::print_tree() const {
