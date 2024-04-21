@@ -230,18 +230,18 @@ int Tree::get_index(size_t index) const {
     while (current || !stack.empty()) {
         while (current) {
             stack.push(current);
-            current = current->left;
+            current = current->left;//ѕереходим к самому левому узлу, добавл€€ все пройденные узлы в стек stack
         }
 
         current = stack.top();
-        stack.pop();
+        stack.pop();//»звлекаем узел из вершины стека
 
         if (current_index == index) {
             return current->key;
         }
 
         current_index++;
-        current = current->right;
+        current = current->right;//”величиваем текущий индекс current_index. ѕереходим к правому потомку текущего узла.
     }
 
     throw std::out_of_range("Index out of range");
