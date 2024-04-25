@@ -48,21 +48,24 @@ public:
 
     void print() const {
         for (size_t i = 0; i < _data.size(); ++i) {
+            std::cout << "Level " << i << ": ";
             for (const auto& pair : _data[i]) {
                 std::cout << "{" << pair.key << " : " << pair.value << "} ";
             }
+            std::cout << std::endl;
         }
-        std::cout << std::endl;
     }
 
     void insert(const Key& key, const Value& value) {
         size_t index = hash_func(key) % _data.size();
-        for (const auto& pair : _data[index]) {
+        for (auto& pair : _data[index]) {
             if (comparator_key(pair.key, key)) {
-                throw std::invalid_argument("Key already exists");
+                _data[index].push_back({ key, value });  // Добавляем новую пару ключ-значение в связанный список
+                _size++;
+                return;
             }
         }
-        _data[index].push_back({ key, value });
+        _data[index].push_back({ key, value });  // Если ключ не существует, добавляем новую пару ключ-значение в связанный список
         _size++;
     }
 
@@ -121,6 +124,8 @@ public:
         }
         return count;
     }
+
+
 };
 
 #endif

@@ -1,5 +1,4 @@
 #include "../include/HashTable.h"
-#include <iostream>
 
 int main() {
     // Создание хэш-таблицы
@@ -51,7 +50,7 @@ int main() {
     table1.print();
 
     // Попытка вставить элемент с коллизией
-    table1.insert(15, "orange");
+    table1.insert(5, "orange");
 
     // Вывод содержимого после попытки вставки элемента с коллизией
     std::cout << "Table after attempting to insert 'orange':" << std::endl;
@@ -64,12 +63,16 @@ int main() {
     table2.insert(3, -1);
     table2.insert(4, 4);
     table2.print();
-    table2.insert(2, 2);
+    table2.insert(3, 2);
     std::cout << std::boolalpha << table2.contains(-1) << std::endl;
     table2.insert_or_assign(3, 3);
     table2.insert(0, 0);
     table2.erase(4);
     table2.print();
+
+
+   
+
 
     return 0;
 }
