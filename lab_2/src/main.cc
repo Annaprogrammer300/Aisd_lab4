@@ -43,7 +43,7 @@ int main() {
 
     // Вставка элементов, которые будут иметь коллизии
     table1.insert(5, "apple");
-    table1.insert(10, "banana");
+    table1.insert(11, "banana");
 
     // Вывод содержимого
     std::cout << "Table after inserting 'apple' and 'banana':" << std::endl;
@@ -64,7 +64,7 @@ int main() {
     table2.insert(4, 4);
     table2.print();
     table2.insert(3, 2);
-    std::cout << std::boolalpha << table2.contains(-1) << std::endl;
+    std::cout << "Contains '-1': " << std::boolalpha << table2.contains(-1) << std::endl;
     table2.insert_or_assign(3, 3);
     table2.insert(0, 0);
     table2.erase(4);

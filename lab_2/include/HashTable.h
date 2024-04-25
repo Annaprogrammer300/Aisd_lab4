@@ -4,16 +4,12 @@
 #include <iostream>
 #include <vector>
 #include <list>
-#include <functional>
 
 template <typename Key, typename Value>
 class HashTable {
     struct Pair {
         Key key;
         Value value;
-        /*
-        Pair() : key(0), value(0){}
-        Pair(const Key& key, const Value& value) : key(key), value(value){}*/
 
     };
 
