@@ -71,7 +71,12 @@ int main() {
     table2.print();
 
 
-   
+    HashTable<char, int> nums(1);
+
+    std::string romanNumber = "MMXXIV";  // Римское число "2024"
+
+    int decimalValue = nums.romanToDecimal(romanNumber);
+    std::cout << "Roman number " << romanNumber << " in the decimal system: " << decimalValue << std::endl;
 
 
     return 0;

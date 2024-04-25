@@ -5,7 +5,6 @@
 #include <vector>
 #include <list>
 #include <functional>
-#include <stdexcept>
 
 template <typename Key, typename Value, typename Hash = std::hash<Key>, typename Comp_key = std::equal_to<Key>, typename Comp_value = std::equal_to<Value>>
 class HashTable {
@@ -124,6 +123,34 @@ public:
         }
         return count;
     }
+
+
+    int romanToDecimal(const std::string& roman) {
+        HashTable<char, int> _nums(1);
+        _nums.insert('I', 1);
+        _nums.insert('V', 5);
+        _nums.insert('X', 10);
+        _nums.insert('L', 50);
+        _nums.insert('C', 100);
+        _nums.insert('D', 500);
+        _nums.insert('M', 1000);
+
+        int result = 0;
+        int prevValue = 0;
+
+        for (int i = roman.size() - 1; i >= 0; --i) {
+            int curValue = *_nums.search(roman[i]);
+            if (curValue < prevValue) {
+                result -= curValue;
+            }
+            else {
+                result += curValue;
+            }
+            prevValue = curValue;
+        }
+
+        return result;
+        }
 
 
 };
