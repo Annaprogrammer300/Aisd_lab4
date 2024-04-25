@@ -14,7 +14,7 @@ int main() {
     table.print();
 
     // Проверка наличия элемента
-    std::cout << "Contains 'two': " << std::boolalpha << table.contains(2) << std::endl;
+    std::cout << "Contains '2': " << std::boolalpha << table.contains(2) << std::endl;
 
     // Поиск элемента
     int* value = table.search("three");

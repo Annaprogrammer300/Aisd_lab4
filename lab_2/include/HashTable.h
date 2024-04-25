@@ -18,13 +18,13 @@ class HashTable {
 
     size_t divisionHash(const Key& key) const {
         if constexpr (std::is_arithmetic_v<Key>) {
-            return key % _data.size();
+            return key % capacity();
         }
         else {
             float hashedValue = 0;
             for (char c : static_cast<std::string>(key))
                 hashedValue += static_cast<float>(c);
-            return size_t(hashedValue) % _data.size();
+            return size_t(hashedValue) % capacity();
         }
     }
 
@@ -47,16 +47,13 @@ public:
         _size = 0;
     }
 
-    size_t size() const {
-        return _size;
-    }
 
     size_t capacity() const {
         return _data.size();
     }
 
     void print() const {
-        for (size_t i = 0; i < _data.size(); ++i) {
+        for (size_t i = 0; i < capacity(); ++i) {
             std::cout << "Level " << i << ": ";
             for (const auto& pair : _data[i]) {
                 std::cout << "{" << pair.key << " : " << pair.value << "} ";
