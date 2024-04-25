@@ -6,18 +6,32 @@
 #include <list>
 #include <functional>
 
-template <typename Key, typename Value, typename Hash = std::hash<Key>, typename Comp_key = std::equal_to<Key>, typename Comp_value = std::equal_to<Value>>
+template <typename Key, typename Value>
 class HashTable {
     struct Pair {
         Key key;
         Value value;
+        /*
+        Pair() : key(0), value(0){}
+        Pair(const Key& key, const Value& value) : key(key), value(value){}*/
+
     };
 
     std::vector<std::list<Pair>> _data;
     size_t _size;
-    Hash hash_func;
-    Comp_key comparator_key;
-    Comp_value comparator_value;
+
+    size_t divisionHash(const Key& key) const {
+        if constexpr (std::is_arithmetic_v<Key>) {
+            return key % _data.size();
+        }
+        else {
+            float hashedValue = 0;
+            for (char c : static_cast<std::string>(key))
+                hashedValue += static_cast<float>(c);
+            return size_t(hashedValue) % _data.size();
+        }
+    }
+
 
 public:
     HashTable(size_t capacity) : _size(0), _data(capacity) {}
@@ -56,22 +70,18 @@ public:
     }
 
     void insert(const Key& key, const Value& value) {
-        size_t index = hash_func(key) % _data.size();
-        for (auto& pair : _data[index]) {
-            if (comparator_key(pair.key, key)) {
-                _data[index].push_back({ key, value });  // Добавляем новую пару ключ-значение в связанный список
-                _size++;
-                return;
-            }
-        }
-        _data[index].push_back({ key, value });  // Если ключ не существует, добавляем новую пару ключ-значение в связанный список
+        size_t index = divisionHash(key);
+        _data[index].push_back({ key, value });
         _size++;
     }
 
+
+    //будет обновлять только первое найденное значение, связанное с ключом key, при коллизии
+
     void insert_or_assign(const Key& key, const Value& value) {
-        size_t index = hash_func(key) % _data.size();
+        size_t index = divisionHash(key);
         for (auto& pair : _data[index]) {
-            if (comparator_key(pair.key, key)) {
+            if (pair.key == key) {
                 pair.value = value;
                 return;
             }
@@ -80,20 +90,23 @@ public:
         _size++;
     }
 
-    bool contains(const Key& key) const {
-        size_t index = hash_func(key) % _data.size();
-        for (const auto& pair : _data[index]) {
-            if (comparator_key(pair.key, key)) {
-                return true;
+
+
+    bool contains(const Value& value) const {
+        for (const auto& list : _data) {
+            for (const auto& pair : list) {
+                if (pair.value == value) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
     Value* search(const Key& key) {
-        size_t index = hash_func(key) % _data.size();
+        size_t index = divisionHash(key);
         for (auto& pair : _data[index]) {
-            if (comparator_key(pair.key, key)) {
+            if (pair.key == key) {
                 return &pair.value;
             }
         }
@@ -101,10 +114,10 @@ public:
     }
 
     bool erase(const Key& key) {
-        size_t index = hash_func(key) % _data.size();
+        size_t index = divisionHash(key);
         auto& bucket = _data[index];
         for (auto it = bucket.begin(); it != bucket.end(); ++it) {
-            if (comparator_key(it->key, key)) {
+            if (it->key== key) {
                 bucket.erase(it);
                 _size--;
                 return true;
@@ -113,11 +126,11 @@ public:
         return false;
     }
 
-    int count(const Key& key) const {
-        size_t index = hash_func(key) % _data.size();
-        int count = 0;
+    size_t count(const Key& key) const {
+        size_t index = divisionHash(key);
+        size_t count = 0;
         for (const auto& pair : _data[index]) {
-            if (comparator_key(pair.key, key)) {
+            if (pair.key == key) {
                 count++;
             }
         }
@@ -125,7 +138,7 @@ public:
     }
 
 
-    int romanToDecimal(const std::string& roman) {
+    size_t romanToDecimal(const std::string& roman) {
         HashTable<char, int> _nums(1);
         _nums.insert('I', 1);
         _nums.insert('V', 5);

@@ -14,7 +14,7 @@ int main() {
     table.print();
 
     // Проверка наличия элемента
-    std::cout << "Contains 'two': " << std::boolalpha << table.contains("two") << std::endl;
+    std::cout << "Contains 'two': " << std::boolalpha << table.contains(2) << std::endl;
 
     // Поиск элемента
     int* value = table.search("three");
@@ -50,7 +50,7 @@ int main() {
     table1.print();
 
     // Попытка вставить элемент с коллизией
-    table1.insert(5, "orange");
+    table1.insert(20, "orange");
 
     // Вывод содержимого после попытки вставки элемента с коллизией
     std::cout << "Table after attempting to insert 'orange':" << std::endl;
@@ -75,7 +75,7 @@ int main() {
 
     std::string romanNumber = "MMXXIV";  // Римское число "2024"
 
-    int decimalValue = nums.romanToDecimal(romanNumber);
+    size_t decimalValue = nums.romanToDecimal(romanNumber);
     std::cout << "Roman number " << romanNumber << " in the decimal system: " << decimalValue << std::endl;
 
 
