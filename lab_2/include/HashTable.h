@@ -23,7 +23,7 @@ class HashTable {
         else {
             float hashedValue = 0;
             for (char c : static_cast<std::string>(key))
-                hashedValue += static_cast<float>(c);
+                hashedValue += static_cast<float>(c);// основанный на сложении ASCII-кодов символов
             return size_t(hashedValue) % capacity();
         }
     }
@@ -64,6 +64,12 @@ public:
 
     void insert(const Key& key, const Value& value) {
         size_t index = divisionHash(key);
+        for (const auto& pair : _data[index]) {
+            if (pair.key == key) {
+                // Ключ уже существует, не вставляем
+                return;
+            }
+        }
         _data[index].push_back({ key, value });
         _size++;
     }
@@ -119,6 +125,7 @@ public:
         return false;
     }
 
+    //вычисляет количество элементов в хэш-таблице, у которых ключ равен переданному key
     size_t count(const Key& key) const {
         size_t index = divisionHash(key);
         size_t count = 0;

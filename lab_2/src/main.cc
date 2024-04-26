@@ -67,16 +67,23 @@ int main() {
     std::cout << "Contains '-1': " << std::boolalpha << table2.contains(-1) << std::endl;
     table2.insert_or_assign(3, 3);
     table2.insert(0, 0);
-    table2.erase(4);
+    table2.erase(3);
     table2.print();
 
 
     HashTable<char, int> nums(1);
 
-    std::string romanNumber = "MMXXIV";  // Римское число "2024"
+    std::string romanNumber = "MCMXXIV";  // Римское число "2024"
 
     size_t decimalValue = nums.romanToDecimal(romanNumber);
     std::cout << "Roman number " << romanNumber << " in the decimal system: " << decimalValue << std::endl;
+
+    HashTable<char, int> nums1(1);
+
+    std::string romanNumber1 = "LXXVIII";  // Римское число "78"
+
+    size_t decimalValue1 = nums.romanToDecimal(romanNumber1);
+    std::cout << "Roman number " << romanNumber1 << " in the decimal system: " << decimalValue1 << std::endl;
 
 
     return 0;
