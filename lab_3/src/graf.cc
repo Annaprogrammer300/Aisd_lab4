@@ -73,11 +73,13 @@ bool Graph<Vertex, Distance>::has_edge(const Vertex& from, const Vertex& to) con
     return false;
 }
 
+//ѕолучаем итераторы, указывающие на начало и конец вектора вершин графа.
 template<typename Vertex, typename Distance>
 std::pair<typename std::vector<Vertex>::iterator, typename std::vector<Vertex>::iterator> Graph<Vertex, Distance>::vertices() {
     return { _vertices.begin(), _vertices.end() };
 }
 
+//возвращает пару итераторов, указывающих на начало и конец вектора ребер, исход€щих из заданной вершины
 template<typename Vertex, typename Distance>
 std::pair<typename std::vector<Vertex>::iterator, typename std::vector<Vertex>::iterator> Graph<Vertex, Distance>::edges(const Vertex& v) {
     return { exiting_edges(v).begin(), exiting_edges(v).end() };
@@ -90,6 +92,7 @@ std::vector<typename Graph<Vertex, Distance>::Edge> Graph<Vertex, Distance>::exi
     return _edges.at(v);
 }
 
+//возвращает вектор всех ребер, вход€щих в заданную вершину
 template<typename Vertex, typename Distance>
 std::vector<typename Graph<Vertex, Distance>::Edge> Graph<Vertex, Distance>::incoming_edges(const Vertex& v) const {
     if (!has_vertex(v)) throw std::invalid_argument("[incoming_edges] there is no such vertex in the graph");
@@ -107,6 +110,7 @@ size_t Graph<Vertex, Distance>::order() const {
     return _vertices.size();
 }
 
+//(количество ребер) дл€ заданной вершины
 template<typename Vertex, typename Distance>
 size_t Graph<Vertex, Distance>::degree(const Vertex& v) const {
     if (!has_vertex(v)) throw std::invalid_argument("[degree] there is no such vertex in the graph");
@@ -165,7 +169,7 @@ template<typename Vertex, typename Distance>
 std::vector<Vertex> Graph<Vertex, Distance>::walk(const Vertex& start_vertex) const { // обход в ширину
     if (!has_vertex(start_vertex)) throw std::invalid_argument("[walk] there is no such vertex in the graph");
 
-    std::vector<Vertex> result;
+    std::vector<Vertex> result;//посещенные вершины
     std::unordered_map<Vertex, Color> colors;
 
     for (const auto& vertex : _vertices) {
@@ -224,8 +228,8 @@ void Graph<Vertex, Distance>::print_edges() const {
 
 template<typename Vertex, typename Distance>
 Vertex Graph<Vertex, Distance>::find_farthest_vertex() {
-    Vertex farthest_vertex{};
-    Distance max_avg_distance = 0;
+    Vertex farthest_vertex{};//¬ершина, наиболее удалЄнна€ от других вершин.
+    Distance max_avg_distance = 0;//ћаксимальное среднее рассто€ние от какой-либо вершины до еЄ соседей.
 
     for (const auto& vertex : _vertices) {
         // ¬ычисл€ем среднее рассто€ние от текущей вершины до еЄ соседей
