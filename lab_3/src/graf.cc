@@ -15,14 +15,18 @@ void Graph<Vertex, Distance>::add_vertex(const Vertex& v) {
 
 template<typename Vertex, typename Distance>
 bool Graph<Vertex, Distance>::remove_vertex(const Vertex& v) {
-    auto& it = std::find(_vertices.begin(), _vertices.end(), v);
+    auto it = std::find(_vertices.begin(), _vertices.end(), v);
     if (it == _vertices.end()) return false;
+
+    // Удаляем вершину из списка вершин
     _vertices.erase(it);
+
+    // Удаляем все ребра, связанные с удаляемой вершиной
     _edges.erase(v);
-    for (auto& vertex : _vertices) {
-        auto& edges = _edges.at(vertex);
-        edges.erase(std::remove_if(edges.begin(), edges.end(), [v](const Edge& e) {return e.to == v; }), edges.end());
+    for (auto& [vertex, edges] : _edges) {
+        edges.erase(std::remove_if(edges.begin(), edges.end(), [&](const Edge& e) { return e.to == v; }), edges.end());
     }
+
     return true;
 }
 
