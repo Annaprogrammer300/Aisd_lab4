@@ -122,52 +122,67 @@ size_t Graph<Vertex, Distance>::degree(const Vertex& v) const {
     return incoming_edges(v).size() + exiting_edges(v).size();
 }
 
-template<typename Vertex, typename Distance> // поиск кратчайшего пути Алгоритм Дейкстры
-std::vector<typename Graph<Vertex, Distance>::Edge> Graph<Vertex, Distance>::shortest_path(const Vertex& start, const Vertex& end) const {
-    if (!has_vertex(start) || !has_vertex(end)) throw std::invalid_argument("[shortest_path] one or two vertices do not exist in the graph");
+template<typename Vertex, typename Distance>
+std::vector<typename Graph<Vertex, Distance>::Edge> Graph<Vertex, Distance>::shortest_path(const Vertex& from, const Vertex& to) const {
+    if (!has_vertex(from) || !has_vertex(to))
+        return {};
 
-    std::unordered_map<Vertex, Distance> distance;
+    // Проверка на наличие отрицательных весов
+    for (const Vertex& vertex : _vertices) {
+        for (const auto& edge : _edges.at(vertex)) {
+            if (edge.distance < 0) {
+                throw std::runtime_error("The graph contains negative weights");
+            }
+            if (edge.to == vertex) {
+                throw std::runtime_error("There are cycles in the graph");
+            }
+        }
+    }
+
+    std::unordered_map<Vertex, Distance> distances;
     std::unordered_map<Vertex, Vertex> prev;
 
-    for (const Vertex& vertex : _vertices) {
-        distance[vertex] = std::numeric_limits<Distance>::max();
-    }
-    distance[start] = 0;
+    for (const auto& vertex : _vertices)
+        distances[vertex] = std::numeric_limits<Distance>::max();
+    distances[from] = 0;
 
     std::priority_queue<std::pair<Distance, Vertex>, std::vector<std::pair<Distance, Vertex>>, std::greater<std::pair<Distance, Vertex>>> pq;
-    pq.push(std::make_pair(0, start));
+    pq.push({ 0, from });
 
     while (!pq.empty()) {
-        Vertex current = pq.top().second;
+        Vertex u = pq.top().second;
         pq.pop();
 
-        if (current == end) {
-            // Восстановление пути
-            std::vector<Edge> result;
-            Vertex current_vertex = end;
-            while (current_vertex != start) {
-                auto it = std::find_if(_edges.at(prev[current_vertex]).begin(), _edges.at(prev[current_vertex]).end(),
-                    [&](const Edge& e) { return e.to == current_vertex; });
-                result.push_back(*it);
-                current_vertex = prev[current_vertex];
+        if (u == to) {
+            std::vector<Edge> path;
+            Vertex current = to;
+            while (current != from) {
+                for (const auto& edge : _edges.at(prev[current])) {
+                    if (edge.to == current) {
+                        path.push_back(edge);
+                        break;
+                    }
+                }
+                current = prev[current];
             }
-            std::reverse(result.begin(), result.end());
-            return result;
+            std::reverse(path.begin(), path.end());
+            return path;
         }
 
-        for (const auto& edge : exiting_edges(current)) {
-            Distance new_distance = distance[current] + edge.distance;
-            if (new_distance < distance[edge.to]) {
-                distance[edge.to] = new_distance;
-                prev[edge.to] = current;
-                pq.push(std::make_pair(new_distance, edge.to));
+        if (distances[u] < std::numeric_limits<Distance>::max()) {
+            for (const auto& edge : _edges.at(u)) {
+                Distance alt = distances[u] + edge.distance;
+                if (alt < distances[edge.to]) {
+                    distances[edge.to] = alt;
+                    prev[edge.to] = u;
+                    pq.push({ alt, edge.to });
+                }
             }
         }
     }
-
-    // Если конечная вершина недостижима
-    throw std::runtime_error("[shortest_path] no path found");
+    return {};
 }
+
 
 template<typename Vertex, typename Distance>
 std::vector<Vertex> Graph<Vertex, Distance>::walk(const Vertex& start_vertex) const { // обход в ширину
@@ -238,7 +253,7 @@ Vertex Graph<Vertex, Distance>::find_farthest_vertex() {
     for (const auto& vertex : _vertices) {
         // Вычисляем среднее расстояние от текущей вершины до её соседей
         Distance avg_distance = 0;
-        size_t num_neighbors = 0;
+        size_t num_neighbors = 0;//Количество соседей
         for (const auto& edge : exiting_edges(vertex)) {
             avg_distance += length_shortest_path(vertex, edge.to);
             num_neighbors++;

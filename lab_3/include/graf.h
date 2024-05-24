@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <vector>
 
+
 enum class Color { White, Gray, Black };
 
 template<typename Vertex, typename Distance = double>
@@ -48,7 +49,7 @@ public:
 
 private:
     std::vector<Vertex> _vertices;
-    std::unordered_map<Vertex, std::vector<Edge>> _edges;
+    std::unordered_map<Vertex, std::vector<Edge>> _edges;//список смежности
 };
 
 #endif
