@@ -26,6 +26,11 @@ int main() {
     if (graph.remove_vertex("B")) {
         std::cout << "Vertex B has been removed" << std::endl;
     }
+    graph.print_vertices();
+
+    std::cout << std::endl;
+    // Вывод списка ребер
+    graph.print_edges();
 
     // Проверка наличия ребра
     if (graph.has_edge("A", "B")) {

@@ -139,8 +139,8 @@ std::vector<typename Graph<Vertex, Distance>::Edge> Graph<Vertex, Distance>::sho
         }
     }
 
-    std::unordered_map<Vertex, Distance> distances;
-    std::unordered_map<Vertex, Vertex> prev;
+    std::unordered_map<Vertex, Distance> distances; //расстояния от начальной вершины from до каждой вершины
+    std::unordered_map<Vertex, Vertex> prev; //предыдущую вершину в кратчайшем пути для каждой вершины.
 
     for (const auto& vertex : _vertices)
         distances[vertex] = std::numeric_limits<Distance>::max();
@@ -153,6 +153,7 @@ std::vector<typename Graph<Vertex, Distance>::Edge> Graph<Vertex, Distance>::sho
         Vertex u = pq.top().second;
         pq.pop();
 
+        //восстоновление порядка
         if (u == to) {
             std::vector<Edge> path;
             Vertex current = to;
@@ -169,6 +170,7 @@ std::vector<typename Graph<Vertex, Distance>::Edge> Graph<Vertex, Distance>::sho
             return path;
         }
 
+        //ослабление ребр
         if (distances[u] < std::numeric_limits<Distance>::max()) {
             for (const auto& edge : _edges.at(u)) {
                 Distance alt = distances[u] + edge.distance;
